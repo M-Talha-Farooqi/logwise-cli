@@ -1,0 +1,29 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install
+        run: pip install -e ".[dev]"
+      - name: Lint
+        run: ruff check src tests
+      - name: Test
+        run: pytest -q --cov=logwise --cov-report=term-missing
+      - name: Smoke test the binary
+        run: |
+          python scripts/generate_logs.py --lines 2000 --seed 7 --out ci.log
+          logwise analyze ci.log
+          logwise analyze ci.log --format json > /dev/null
