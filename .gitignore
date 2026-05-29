@@ -14,3 +14,4 @@ htmlcov/
 sample*.log
 *.generated.log
 .DS_Store
+.docx
