@@ -24,7 +24,8 @@ def render_console(analysis: Analysis, console: Console | None = None) -> None:
     # ---- format breakdown (anomaly surface) ----
     if analysis.format_counts:
         fmt_table = Table(title="Line formats seen", show_edge=False)
-        fmt_table.add_column("format"); fmt_table.add_column("count", justify="right")
+        fmt_table.add_column("format")
+        fmt_table.add_column("count", justify="right")
         for k, v in sorted(analysis.format_counts.items(), key=lambda x: -x[1]):
             style = "red" if k == "malformed" else ("yellow" if k == "salvaged" else "")
             fmt_table.add_row(f"[{style}]{k}[/{style}]" if style else k, f"{v:,}")
@@ -45,7 +46,8 @@ def render_console(analysis: Analysis, console: Console | None = None) -> None:
 
     if analysis.top_ips:
         ip_table = Table(title="Top client IPs")
-        ip_table.add_column("ip"); ip_table.add_column("requests", justify="right")
+        ip_table.add_column("ip")
+        ip_table.add_column("requests", justify="right")
         for ip, n in analysis.top_ips:
             ip_table.add_row(ip, f"{n:,}")
         console.print(ip_table)

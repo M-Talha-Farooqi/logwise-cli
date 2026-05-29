@@ -121,19 +121,26 @@ def _try_standard(line_no: int, line: str) -> LogEntry | None:
     # ip: first token that looks like an address (contains '.' or ':') — but if the next
     # token is an HTTP method we assume position 0 is the IP regardless.
     if tokens:
-        ip = tokens[idx]; idx += 1
+        next_is_method = len(tokens) > 1 and tokens[1].upper() in _HTTP_METHODS
+        if "." in tokens[idx] or ":" in tokens[idx] or next_is_method:
+            ip = tokens[idx]
+            idx += 1
     # method
     if idx < len(tokens) and tokens[idx].upper() in _HTTP_METHODS:
-        method = tokens[idx].upper(); idx += 1
+        method = tokens[idx].upper()
+        idx += 1
     # path
     if idx < len(tokens):
-        path = tokens[idx]; idx += 1
+        path = tokens[idx]
+        idx += 1
     # status
     if idx < len(tokens):
-        status = normalize_status(tokens[idx]); idx += 1
+        status = normalize_status(tokens[idx])
+        idx += 1
     # response time
     if idx < len(tokens):
-        rt = normalize_response_time(tokens[idx]); idx += 1
+        rt = normalize_response_time(tokens[idx])
+        idx += 1
     # anything left over = extra appended fields (user agent, referrer). Keep as a note,
     # do NOT discard — but don't let it derail the core fields.
     extras = tokens[idx:]
@@ -142,8 +149,8 @@ def _try_standard(line_no: int, line: str) -> LogEntry | None:
     fmt = LineFormat.STANDARD if (ts and method and status is not None) else LineFormat.SALVAGED
 
     # If literally nothing useful came out, treat as malformed (return None).
-    core_present = [x for x in (ts, method, status) if x is not None]
-    if not core_present and ip is None and path is None:
+    has_signal = ts is not None or method is not None or status is not None or rt is not None
+    if not has_signal:
         return None
 
     entry = LogEntry(

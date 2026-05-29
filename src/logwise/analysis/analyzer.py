@@ -3,7 +3,7 @@ from __future__ import annotations
 from collections import Counter, defaultdict
 from dataclasses import dataclass, field
 
-from logwise.models import LogEntry, ParseReport
+from logwise.models import ParseReport
 
 
 @dataclass(slots=True)
