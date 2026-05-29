@@ -25,5 +25,13 @@ jobs:
       - name: Smoke test the binary
         run: |
           python scripts/generate_logs.py --lines 2000 --seed 7 --out ci.log
+          set +e
           logwise analyze ci.log
+          rc=$?
           logwise analyze ci.log --format json > /dev/null
+          rc_json=$?
+          set -e
+          if [ $rc -gt 1 ] || [ $rc_json -gt 1 ]; then
+            echo "Unexpected exit code(s): $rc / $rc_json"
+            exit 1
+          fi
