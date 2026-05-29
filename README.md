@@ -1,3 +1,5 @@
+![ci](https://github.com/M-Talha-Farooqi/logwise-cli/actions/workflows/ci.yml/badge.svg)
+
 # logwise
 
 A resilient server-log analyzer for on-call engineers. Point it at any web-service log
@@ -50,10 +52,12 @@ cat app.log | logwise analyze -            # read from stdin
 ```
 
 ### Options
+
 - `--format {table,json,csv}` (default `table`)
 - `--top N` (default 10)
 
 ### Exit codes
+
 - `0` clean run
 - `1` ran fine but found 5xx errors or a >20% malformed rate (useful in cron/CI alerts)
 - `2` usage error (no input / file not found)
