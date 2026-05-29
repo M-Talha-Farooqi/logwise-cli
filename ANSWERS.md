@@ -42,7 +42,7 @@ I built a **CLI in Python** (Typer + Rich).
 
 **Unix-epoch timestamps in milliseconds vs seconds.**
 See `src/logwise/parsing/timestamps.py`, in `_to_utc`, the `EPOCH` branch (around
-**line 59**):
+**line 60**):
 
 ```python
 num = int(text)
