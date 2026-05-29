@@ -5,7 +5,7 @@
 On a fresh machine with **Python 3.11+**:
 
 ```bash
-git clone <YOUR_REPO_URL> && cd logwise
+git clone https://github.com/M-Talha-Farooqi/logwise-cli.git && cd logwise-cli
 pip install .
 logwise analyze path/to/log.file
 ```
@@ -36,7 +36,7 @@ I built a **CLI in Python** (Typer + Rich).
   more moving parts to deploy and secure, with no benefit for the on-call workflow. A
   **GUI** would be worse still: wrong domain entirely, and not scriptable. I also avoided
   pulling in a heavy log-parsing framework because the spec's whole point is handling
-  *unexpected* shapes, which a rigid schema-based parser handles poorly.
+  _unexpected_ shapes, which a rigid schema-based parser handles poorly.
 
 ## 3. One real edge case
 
